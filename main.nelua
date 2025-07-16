@@ -15,6 +15,19 @@ nldecl.generate_bindings_file {
   linklib "crypto"
 ]]
 ]=],
-output_foot = [[]]
+output_foot = [[
+global function SSL_library_init()
+  OPENSSL_init_ssl(0, nilptr)
+end
+global function SSL_load_error_strings()
+  OPENSSL_init_ssl(0x00200000 | 0x00000002, nilptr)
+end
+global function OpenSSL_add_all_algorithms()
+  OPENSSL_init_ssl(0x00000004 | 0x00000008, nilptr)
+end
+global function SSL_set_tlsext_host_name(ssl: *SSL, host: cstring): clong
+  return SSL_ctrl(ssl, 55, 0, (@*void)(host))
+end
+]]
 }
 ]==]
