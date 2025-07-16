@@ -1,0 +1,20 @@
+##[==[
+-- import Nelua Decl plugin and filesystem utils.
+local nldecl = require 'nelua.plugins.nldecl'
+local fs = require 'nelua.utils.fs'
+
+-- generate nelua bindings file
+nldecl.generate_bindings_file {
+  output_file = 'openssl.nelua',
+  parse_includes = {"<openssl/ssl.h>", "<openssl/err.h>"},
+  include_names = {"^OPEN", "^open" ,"^ssl", "^SSL", "^TLS", "tls", "ERR"},
+  output_head = [=[##[[
+  cinclude "<openssl/ssl.h>"
+  cinclude "<openssl/err.h>"
+  linklib "ssl"
+  linklib "crypto"
+]]
+]=],
+output_foot = [[]]
+}
+]==]
